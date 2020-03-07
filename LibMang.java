@@ -97,6 +97,7 @@ class Lib
 {
     static ArrayList <Book> books=new ArrayList<Book>();
     static ArrayList <User> users=new ArrayList<User>();
+    static ArrayList <Borrow> borrows=new ArrayList<Borrow>();
     private String name;
     private String address;
     public Lib(String name,String address)
@@ -247,13 +248,85 @@ class Lib
         System.out.println("No such book in lib");
     }
 
+    public static void borrow_book()
+    {
+        Scanner fscan=new Scanner(System.in);
+        boolean id_check=false;//to check the id ;
+        boolean book_chek=false;//to check the book;
+        Date currentDate=new Date();
+        int year,month,day;
+        System.out.println("enter your id:");    
+        String id=fscan.nextLine();
+        for (User temp : users) // check the entered id to check if it wasnt exited;
+        {
+            String temp_id=temp.id_get();
+            if (temp_id.equals(id))
+            {
+                id_check=true;
+                break;    
+            }    
+        }
+        if (!id_check)
+        {
+            System.out.println("No such that id");
+            return;    
+        }
+        System.out.println("enter the title of the book you want");
+        String book_name=fscan.nextLine();
+        System.out.println("enter the author of the book you want");
+        String book_author=fscan.nextLine();
+        for (Book temp : books) //check if there wasnt such that book
+        {
+            if (temp.equals(book_name,book_author)==true)
+            {
+                book_chek=true;
+                break;    
+            }   
+        }
+        if (!book_chek)
+        {
+            System.out.println("there isnt such that book");    
+        }
+        System.out.println("enter the deadlin : year month day");
+        year=fscan.nextInt();
+        month=fscan.nextInt();
+        day=fscan.nextInt();
+        Date deadlineDate=new Date(year-1900, month-1, day);
+        if (deadlineDate.before(currentDate)) //check if the deadline was before current time;
+        {
+            System.out.println("Please enter a suitable Date");
+            return;   
+        }
+        
+        //////////////////
+        for (User temp : users)//count to reach the user who wants to borrow;
+        {
+            if (temp.equals(id))
+            {  
+                temp.borrower=true;
+                int i=0;
+                for (Book tempBook : books) 
+                {   
+                    if (tempBook.equals(book_name,book_author))
+                    {
+                        borrows.add(new Borrow(temp,tempBook,currentDate,deadlineDate));    
+                        books.remove(i);
+                        System.out.println("borrowed");
+                        return;
+                    }   
+                    i++;
+                }  
+            }    
+        }
+       
+    }
     public static void main(String[] args)
     {
         int i;
         Scanner fscan=new Scanner(System.in);
         while (true)
         {
-            System.out.println("1)addUseer\n2)removeUser\n3)addBook\n4)removeBook\n");
+            System.out.println("1)addUseer\n2)removeUser\n3)addBook\n4)removeBook\n5)BorrowBook");
             i=fscan.nextInt();
             switch (i) {
                 case 1:
@@ -268,6 +341,9 @@ class Lib
                 case 4:
                     remove_book();
                     break;
+                case 5: 
+                    borrow_book();
+                break;
             }
         }
     }
@@ -343,7 +419,7 @@ class User
     //////check if the user was existed before ;    
     public boolean equals(String id)
     {
-        System.out.println(idNum);
+        // System.out.println(idNum);
         if (idNum.equals(id))
             {
                 return true;
@@ -408,8 +484,19 @@ class Borrow
         }
         this.deadlineDate=deadlineDate;
     }
-    // public void print() {
-        
-    // }
+    public void print() 
+    {
+        System.out.println("Borrower =>Full Name"+borrower.firstname_get()+borrower.lastname_get()+" | "+"ID:"
+        + borrower.id_get());    
+        System.out.printf("Book =>");
+        book.print();
+        System.out.println("IssuedDate =>"+issuedDate);
+        System.out.println("Deadline =>"+deadlineDate);
+        int hour= issuedDate.getHours()-deadlineDate.getHours();
+        int day=issuedDate.getDay()-deadlineDate.getDay();
+        int month=issuedDate.getMonth()-deadlineDate.getMonth();
+        int year=issuedDate.getYear()-deadlineDate.getYear();
+        System.out.println("Remaining =>"+"/"+year+"/"+month+"/"+day+" : "+hour);
+    }
     
 }
