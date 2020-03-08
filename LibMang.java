@@ -1,6 +1,8 @@
 
 import java.util.*;
 
+import jdk.nashorn.internal.ir.ReturnNode;
+
 
 /**
  * Library
@@ -320,13 +322,50 @@ class Lib
         }
        
     }
+
+    public static void borrow_back()
+    {
+        Scanner fscan=new Scanner(System.in);
+        String id;
+        int i=0;
+        int checker=0;
+        Borrow borrower;
+        boolean id_check=false;//to check the id ;
+        System.out.println("please enter your id:");    
+        id=fscan.nextLine();
+        for (Borrow temp : borrows)//check if the id wasnt exist in borrowers; and also find out the index of borrower in borrowers list
+        {
+            if (temp.borrower.equals(id))
+            {
+                id_check=true;
+                break;    
+            }
+            i++;    
+        }
+        if (!id_check)
+        {
+            System.out.println("There isnt such that user in borrowers list");
+            return;
+        }
+        borrower=borrows.get(i);
+        System.out.println("Do you want to borrowback this Book?(Yes=1,No=0)");//make sure user whant to borrow back
+        borrower.book.print();
+        checker=fscan.nextInt();
+        if (checker==0)
+        {
+            return;    
+        }
+        borrows.remove(i);
+        books.add(borrower.get_book());
+        System.out.println("Borrowed Back");
+    }
     public static void main(String[] args)
     {
         int i;
         Scanner fscan=new Scanner(System.in);
         while (true)
         {
-            System.out.println("1)addUseer\n2)removeUser\n3)addBook\n4)removeBook\n5)BorrowBook");
+            System.out.println("1)addUseer\n2)removeUser\n3)addBook\n4)removeBook\n5)BorrowBook\n6)BorrowBack");
             i=fscan.nextInt();
             switch (i) {
                 case 1:
@@ -344,6 +383,9 @@ class Lib
                 case 5: 
                     borrow_book();
                 break;
+                case 6:
+                    borrow_back();
+                    break;
             }
         }
     }
