@@ -359,13 +359,38 @@ class Lib
         books.add(borrower.get_book());
         System.out.println("Borrowed Back");
     }
+    
+    public static void print_past_deadline()
+    {
+        boolean check_deadline=false;//check if the wasnt passed deadline (for suitable message);
+        if (borrows.isEmpty())
+        {
+            System.out.println("there  no borrowers ");    
+            return;
+        }
+        for (Borrow temp: borrows)
+        {
+            Date deadlineDate,currentDate;
+            deadlineDate=temp.get_deadlineDate();
+            currentDate=new Date();
+            if (deadlineDate.before(currentDate))
+            {
+                check_deadline=true;
+                temp.print();
+            }   
+        }    
+        if (!check_deadline) 
+        {
+            System.out.println("There No Passed Deadline");    
+        }
+    }
     public static void main(String[] args)
     {
         int i;
         Scanner fscan=new Scanner(System.in);
         while (true)
         {
-            System.out.println("1)addUseer\n2)removeUser\n3)addBook\n4)removeBook\n5)BorrowBook\n6)BorrowBack");
+            System.out.println("1)addUseer\n2)removeUser\n3)addBook\n4)removeBook\n5)BorrowBook\n6)BorrowBack\n7)printPassedDeadlineBorrows");
             i=fscan.nextInt();
             switch (i) {
                 case 1:
@@ -385,6 +410,9 @@ class Lib
                 break;
                 case 6:
                     borrow_back();
+                    break;
+                case 7:
+                    print_past_deadline();
                     break;
             }
         }
