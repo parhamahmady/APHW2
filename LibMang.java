@@ -61,7 +61,7 @@ public class LibMang
 
     public static void printAllLibraries()//print all libs;
     {
-        System.out.print("\033[H\033[2J");//clear the terminal;
+        // System.out.print("\033[H\033[2J");//clear the terminal;
         for (Lib templib : myLibs)
         {
             templib.print();
@@ -145,7 +145,7 @@ class Lib
 
     public static void print_users()
     {
-        System.out.print("\033[H\033[2J");//clear the terminal;
+        // System.out.print("\033[H\033[2J");//clear the terminal;
         for (User tempuser : users)
         {
             tempuser.print();    
@@ -193,7 +193,7 @@ class Lib
 
     public static void print_books()
     {
-        System.out.print("\033[H\033[2J");//clear the terminal;
+        // System.out.print("\033[H\033[2J");//clear the terminal;
         for (Book tempbook : books)
         {
             tempbook.print();    
@@ -256,7 +256,7 @@ class Lib
         boolean id_check=false;//to check the id ;
         boolean book_chek=false;//to check the book;
         Date currentDate=new Date();
-        int year,month,day;
+        int year,month,day,hour;
         System.out.println("enter your id:");    
         String id=fscan.nextLine();
         for (User temp : users) // check the entered id to check if it wasnt exited;
@@ -289,11 +289,12 @@ class Lib
         {
             System.out.println("there isnt such that book");    
         }
-        System.out.println("enter the deadlin : year month day");
+        System.out.println("enter the deadlin : year month day hour");
         year=fscan.nextInt();
         month=fscan.nextInt();
         day=fscan.nextInt();
-        Date deadlineDate=new Date(year-1900, month-1, day);
+        hour=fscan.nextInt();
+        Date deadlineDate=new Date(year-1900, month-1, day,hour,1);
         if (deadlineDate.before(currentDate)) //check if the deadline was before current time;
         {
             System.out.println("Please enter a suitable Date");
