@@ -10,7 +10,7 @@ import jdk.nashorn.internal.ir.ReturnNode;
 public class LibMang
 {
 
-    static ArrayList <Lib> myLibs=new ArrayList<Lib>();
+    private static ArrayList <Lib> myLibs=new ArrayList<Lib>();
      
     public static void main(final String[] args)
     {
@@ -97,9 +97,9 @@ public class LibMang
 
 class Lib
 {
-    static ArrayList <Book> books=new ArrayList<Book>();
-    static ArrayList <User> users=new ArrayList<User>();
-    static ArrayList <Borrow> borrows=new ArrayList<Borrow>();
+    private static ArrayList <Book> books=new ArrayList<Book>();
+    private static ArrayList <User> users=new ArrayList<User>();
+    private static ArrayList <Borrow> borrows=new ArrayList<Borrow>();
     private String name;
     private String address;
     public Lib(String name,String address)
@@ -422,8 +422,8 @@ class Lib
 
 class Book
 {
-    String title;
-    String author;
+    private String title;
+    private String author;
     public Book(final String ti,final String au)
     {
         title=ti;
@@ -509,8 +509,8 @@ class Borrow
 {
     User borrower;
     Book book;
-    Date issuedDate;
-    Date deadlineDate;
+    private Date issuedDate;
+    private Date deadlineDate;
     public Borrow (User borrower,Book book ,Date issuedDate,Date deadlineDate)
     {
         this.borrower=borrower;
